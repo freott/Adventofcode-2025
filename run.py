@@ -39,7 +39,7 @@ def run_solution(day, test: bool = False, part: int = None):
         return
 
     with open(input_file) as f:
-        data = f.read().strip()
+        data = f.read()
         
     print(f"Running Day {day}...")
     def run(partNo: int):
