@@ -2,46 +2,37 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Run with Arguments",
-            "type": "python",
+            "name": "Debug AOC Solution",
+            "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/run.py", // Path to your `run.py`
+            "module": "run",
             "args": [
-                "16",
-                "2",
-                "test"
-            ],
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Python: Run with Dynamic Arguments",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/run.py",
-            "args": [
-                "${input:solution}",
+                "${input:day}",
                 "${input:part}",
-                "${input:test}"
+                "${input:testMode}"
             ],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ],
     "inputs": [
         {
-            "id": "solution",
+            "id": "day",
             "type": "promptString",
-            "description": "Enter solution number (e.g., 7)"
+            "description": "Day number (e.g., 6)",
+            "default": "6"
         },
         {
             "id": "part",
             "type": "promptString",
-            "description": "Enter part (e.g., 1 or 2)",
+            "description": "Part number (1 or 2)",
             "default": "1"
         },
         {
-            "id": "test",
-            "type": "promptString",
-            "description": "Enter 'test' to use test input or leave blank",
+            "id": "testMode",
+            "type": "pickString",
+            "description": "Use test input?",
+            "options": ["", "test"],
             "default": ""
         }
     ]
