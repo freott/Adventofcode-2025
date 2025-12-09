@@ -15,7 +15,7 @@ def get_input_file(day: str, test: bool = False) -> str:
         else os.path.join(day, "input.txt")
     )
 
-def run_solution(day, test: bool = False, part: int = None, benchmark: bool = False, iterations: int = 100):
+def run_solution(day, test: bool = False, part: int = None, benchmark: bool = False, iterations: int = 10):
     day_folder = f"days/{day}"
     solution_file = os.path.join(day_folder, "solution.py")
     input_file = get_input_file(day_folder, test)
@@ -67,20 +67,22 @@ def run_benchmark(solution, data, test, day, part, iterations):
     for partNo in parts_to_run:
         func = solution.part1 if partNo == 1 else solution.part2
         times = []
-        peak_memory = 0
 
         # Warmup run
         func(data, test)
 
+        # Measure memory separately (single run to avoid overhead)
+        tracemalloc.start()
+        func(data, test)
+        _, peak_memory = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+        # Time without tracemalloc overhead
         for _ in range(iterations):
-            tracemalloc.start()
             start = time.time()
             func(data, test)
             elapsed = time.time() - start
             times.append(elapsed)
-            _, peak = tracemalloc.get_traced_memory()
-            peak_memory = max(peak_memory, peak)
-            tracemalloc.stop()
 
         avg_time = sum(times) / len(times)
         min_time = min(times)
